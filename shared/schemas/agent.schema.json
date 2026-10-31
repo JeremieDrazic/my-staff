@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/jeremiedrazic/my-staff/shared/schemas/agent.schema.json",
+  "title": "Agent frontmatter",
+  "description": "A role. Its shape is read from the tools list, never from prose: Edit or Write means builder, Bash without them means reviewer, neither means advisor.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "description", "tools"],
+  "properties": {
+    "name": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 64 },
+    "description": { "type": "string", "minLength": 40, "maxLength": 1024 },
+    "tools": {
+      "type": ["string", "array"],
+      "items": { "type": "string" },
+      "description": "The contract, mechanically. A reviewer that is handed Edit is not a reviewer."
+    },
+    "model": { "type": "string" },
+    "color": { "type": "string" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": { "enum": ["ready", "draft", "deprecated"] },
+        "superseded-by": { "type": "string" },
+        "inspired-by": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

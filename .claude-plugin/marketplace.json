@@ -1,0 +1,26 @@
+{
+  "name": "my-staff",
+  "description": "Agent skills, roles and checklists for engineering, product and life. One source, every platform.",
+  "owner": {
+    "name": "Jérémie Drazic",
+    "url": "https://github.com/jeremiedrazic"
+  },
+  "metadata": {
+    "pluginRoot": "./domains"
+  },
+  "plugins": [
+    {
+      "name": "ai-craft",
+      "source": "./domains/ai-craft",
+      "description": "Building the tooling itself: writing a skill, a role or an eval, auditing one, and making it work on every platform.",
+      "version": "0.1.0",
+      "keywords": [
+        "skills",
+        "agents",
+        "authoring",
+        "portability",
+        "evals"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/jeremiedrazic/my-staff/shared/schemas/domain.schema.json",
+  "title": "Domain manifest",
+  "description": "One domain is one subject and one installable unit. Every other manifest in the repo is generated from this file.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "family", "summary", "status", "version"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Must equal the directory name and the plugin name."
+    },
+    "family": { "enum": ["meta", "engineering", "product-and-people", "life"] },
+    "summary": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 300,
+      "description": "One sentence, shown in the README table and in the plugin listing."
+    },
+    "status": {
+      "enum": ["ready", "draft", "deprecated"],
+      "description": "ready requires at least 3 valid skills, each with at least one eval case."
+    },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "supersededBy": { "type": "string" },
+    "keywords": { "type": "array", "items": { "type": "string" }, "maxItems": 12 },
+    "requires": {
+      "type": "array",
+      "description": "External tools this domain delegates to. Declared, never vendored.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "install", "covers"],
+        "properties": {
+          "name": { "type": "string" },
+          "source": { "type": "string" },
+          "url": { "type": "string" },
+          "license": { "type": "string" },
+          "install": { "type": "string" },
+          "covers": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" },
+            "description": "What the external tool owns, so this domain never duplicates it."
+          }
+        }
+      }
+    }
+  }
+}

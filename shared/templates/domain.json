@@ -1,0 +1,10 @@
+{
+  "$schema": "../../shared/schemas/domain.schema.json",
+  "name": "{{name}}",
+  "family": "engineering",
+  "summary": "One sentence: what this domain covers, in the words someone would use to look for it.",
+  "status": "draft",
+  "version": "0.1.0",
+  "keywords": [],
+  "requires": []
+}

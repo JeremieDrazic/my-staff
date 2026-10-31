@@ -1,0 +1,20 @@
+# Trigger — can anything find this skill?
+
+A skill nobody loads is worse than no skill: it costs the review that wrote it and returns
+nothing. Everything in this section is about the one sentence an agent reads before deciding.
+
+- [ ] **P0** The description names the **situation**, not the subject. A reader can finish the
+      sentence "I should load this when…".
+- [ ] **P0** It uses the words a person would actually type, not internal vocabulary.
+- [ ] **P0** It does not start by naming itself ("This skill…"). Refused by `staff validate`.
+- [ ] **P1** It says what the skill is **not** for, naming the skill that owns the adjacent case.
+- [ ] **P1** The surfaces the skill covers are listed as nouns, because each one is a retrieval hook.
+- [ ] **P1** The body has a `## When not to use this` section, and it names other skills.
+- [ ] **P2** Read aloud, the first clause alone would make someone open it.
+
+## Anti-patterns
+
+- A description that is a summary of the body.
+- A description that only a person who already knows the skill exists would match.
+- Two skills whose descriptions overlap, so neither is reliably chosen. Merge them or draw
+  the line explicitly in both.

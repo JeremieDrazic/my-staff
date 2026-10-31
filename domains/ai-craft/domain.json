@@ -1,0 +1,10 @@
+{
+  "$schema": "../../shared/schemas/domain.schema.json",
+  "name": "ai-craft",
+  "family": "meta",
+  "summary": "Building the tooling itself: writing a skill, a role or an eval, auditing one, and making it work on every platform.",
+  "status": "draft",
+  "version": "0.1.0",
+  "keywords": ["skills", "agents", "authoring", "portability", "evals"],
+  "requires": []
+}

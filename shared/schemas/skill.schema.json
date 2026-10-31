@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/jeremiedrazic/my-staff/shared/schemas/skill.schema.json",
+  "title": "SKILL.md frontmatter",
+  "description": "Spec-pure by default: only the six keys claude.ai accepts travel everywhere unchanged. Claude Code extras are allowed but must be declared through compatibility.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "description"],
+  "properties": {
+    "name": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 64 },
+    "description": {
+      "type": "string",
+      "minLength": 40,
+      "maxLength": 1024,
+      "description": "The retrieval mechanism, not decoration. Says when to use the skill and when not to."
+    },
+    "license": { "type": "string" },
+    "compatibility": {
+      "type": "array",
+      "items": { "enum": ["claude-code", "claude-ai", "codex", "chatgpt", "universal"] },
+      "description": "Omit for a spec-pure skill. List platforms only when the skill uses platform-specific features."
+    },
+    "allowed-tools": { "type": ["string", "array"], "items": { "type": "string" } },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checklists": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Checklist names from this domain. `staff sync` materialises a copy under references/."
+        },
+        "inspired-by": { "type": "array", "items": { "type": "string" } },
+        "status": { "enum": ["ready", "draft", "deprecated"] },
+        "superseded-by": { "type": "string" },
+        "shape": { "enum": ["builder", "reviewer", "advisor"] }
+      }
+    },
+    "user-invocable": { "type": "boolean" },
+    "disable-model-invocation": { "type": "boolean" },
+    "argument-hint": { "type": "string" },
+    "arguments": { "type": ["array", "object"] },
+    "when_to_use": { "type": "string" },
+    "model": { "type": "string" },
+    "effort": { "type": "string" },
+    "context": { "type": ["string", "array", "object"] },
+    "agent": { "type": "string" },
+    "background": { "type": "boolean" },
+    "hooks": { "type": ["object", "array"] },
+    "paths": { "type": "array", "items": { "type": "string" } },
+    "shell": { "type": "string" },
+    "disallowed-tools": { "type": ["string", "array"] }
+  }
+}

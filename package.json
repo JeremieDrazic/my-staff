@@ -1,0 +1,33 @@
+{
+  "name": "my-staff",
+  "version": "0.1.0",
+  "description": "A versioned toolkit of agent skills, roles and checklists \u2014 one source, every platform.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "private": false,
+  "bin": {
+    "staff": "bin/staff.mjs"
+  },
+  "engines": {
+    "node": ">=20.11"
+  },
+  "files": [
+    "bin",
+    "src",
+    "shared",
+    "domains",
+    "skills.sh.json",
+    ".claude-plugin"
+  ],
+  "scripts": {
+    "staff": "node bin/staff.mjs",
+    "test": "node --test 'tests/**/*.test.mjs'",
+    "validate": "node bin/staff.mjs validate",
+    "doctor": "node bin/staff.mjs doctor",
+    "ci": "pnpm test && node bin/staff.mjs doctor && node bin/staff.mjs manifest --check && node bin/staff.mjs sync --check && node bin/staff.mjs readme --check"
+  },
+  "dependencies": {
+    "ajv": "8.17.1",
+    "yaml": "2.6.1"
+  }
+}

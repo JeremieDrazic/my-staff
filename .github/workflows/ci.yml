@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['20.11', '22', '24']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Tests
+        run: pnpm test
+
+      # Schemas, frontmatter portability, token budgets, links, evals,
+      # plus the privacy and safety shape detectors.
+      - name: Doctor
+        run: node bin/staff.mjs doctor
+
+      # Every generated artefact must match what is committed.
+      - name: Generated artefacts are current
+        run: |
+          node bin/staff.mjs manifest --check
+          node bin/staff.mjs sync --check
+          node bin/staff.mjs readme --check
+
+      - name: Build the two channels that cannot install from a repository
+        run: node bin/staff.mjs build all
+
+  # Non-blocking on purpose: the official validator may need an authenticated CLI,
+  # and we do not want a vendor login in the critical path. The repository's own
+  # validator is the gate; this job is the early warning.
+  plugin-validate:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install -g @anthropic-ai/claude-code
+      - name: Validate the marketplace and every domain
+        run: |
+          claude plugin validate .
+          for domain in domains/*/; do claude plugin validate "$domain"; done

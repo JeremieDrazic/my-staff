@@ -1,0 +1,22 @@
+# Body — the procedure, and what it costs
+
+- [ ] **P0** The body is a procedure. Numbered steps, imperative, each one checkable: a reader
+      can tell whether the step was done.
+- [ ] **P0** No step ends without an observable result. "Ensure quality" is not a step.
+- [ ] **P0** Under the token budget. `staff validate` refuses over ~5000 estimated tokens and
+      warns at 3500.
+- [ ] **P1** Detail, edge cases and tables live in `references/`, each loaded by a step that
+      says when to read it. Nothing in `references/` is unreachable from the body.
+- [ ] **P1** No background the agent already has, and no convention it will read in the repo.
+- [ ] **P1** A rule a script could enforce is not stated here: it is in the validator, the
+      linter or a hook, and the body points at it. A rule outside the linter does not exist.
+- [ ] **P1** Criteria shared with other skills live in a domain checklist, declared through
+      `metadata.checklists`, never copied by hand.
+- [ ] **P2** The last step says how to know the work is finished.
+
+## Anti-patterns
+
+- A wall of prose with the procedure buried in it.
+- A reference nothing links to, which means nobody will ever read it.
+- One skill covering a whole domain. `frontend` is a domain; `review-react-component` is a skill.
+- The same paragraph present in three skills: it wanted to be a checklist or a shared skill.
