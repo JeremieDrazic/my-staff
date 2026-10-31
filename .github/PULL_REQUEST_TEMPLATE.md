@@ -4,7 +4,7 @@
 
 ## Checks
 
-- [ ] `pnpm ci` passes locally.
+- [ ] `pnpm check` passes locally.
 - [ ] No generated file edited by hand (`AGENTS.md` lists them).
 - [ ] A new checklist criterion has a matching entry in that domain's `field-notes.md`, or it
       moved into `staff validate` instead.

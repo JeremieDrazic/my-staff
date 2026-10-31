@@ -15,7 +15,7 @@ pnpm staff new skill review-a-dockerfile --domain delivery
    Detail goes to `references/`, loaded by the step that needs it.
 4. **Keep the frontmatter spec-pure.** Six keys travel everywhere; a seventh breaks the
    claude.ai upload unless you declare `compatibility: [claude-code]`.
-5. **Write one eval case, then run `pnpm ci`.** Then run the skill for real once — the validator
+5. **Write one eval case, then run `pnpm check`.** Then run the skill for real once — the validator
    catches the shape, not a procedure that reads well and cannot be followed.
 
 If what you have is a set of criteria rather than a procedure, it is a checklist: it lives at the

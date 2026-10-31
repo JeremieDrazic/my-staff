@@ -1,6 +1,6 @@
 # Contributing
 
-The short version: scaffold it, write the trigger first, add an eval case, run `pnpm ci`.
+The short version: scaffold it, write the trigger first, add an eval case, run `pnpm check`.
 
 ## Setup
 
@@ -40,7 +40,7 @@ its checklist criteria came from. Then set `status` in `domain.json` and run `pn
 ## Before the pull request
 
 ```bash
-pnpm ci
+pnpm check
 ```
 
 That runs the tests, `staff doctor`, and `--check` on every generated artefact. Then run the

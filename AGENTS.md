@@ -63,7 +63,7 @@ into a shell, no credential reads, no exfiltration. `staff doctor` refuses all o
 ## Before you call it finished
 
 ```bash
-pnpm ci    # tests, doctor, and --check on every generated artefact
+pnpm check    # tests, doctor, and --check on every generated artefact
 ```
 
 Then run the skill you changed, once, for real. The validator catches the shape; only a real run

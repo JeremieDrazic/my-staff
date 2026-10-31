@@ -24,7 +24,7 @@
     "test": "node --test 'tests/**/*.test.mjs'",
     "validate": "node bin/staff.mjs validate",
     "doctor": "node bin/staff.mjs doctor",
-    "ci": "pnpm test && node bin/staff.mjs doctor && node bin/staff.mjs manifest --check && node bin/staff.mjs sync --check && node bin/staff.mjs readme --check"
+    "check": "pnpm test && node bin/staff.mjs doctor && node bin/staff.mjs manifest --check && node bin/staff.mjs sync --check && node bin/staff.mjs readme --check"
   },
   "dependencies": {
     "ajv": "8.17.1",
