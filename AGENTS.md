@@ -43,7 +43,7 @@ commit messages.
 ## Generated files — never edit by hand
 
 `staff manifest` owns `.claude-plugin/marketplace.json`, `skills.sh.json`, and both `plugin.json`
-files in every domain. `staff sync` owns `skills/*/references/<checklist>/`. `staff readme` owns
+files in every domain. `staff sync` owns `skills/*/references/<checklist>.md`. `staff readme` owns
 the marked blocks in `README.md` and every `domains/*/README.md`. CI fails on a stale copy.
 
 Edit the source: `domain.json`, the checklist at the domain level, the README outside the markers.

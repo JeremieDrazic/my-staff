@@ -157,3 +157,17 @@ test('a checklist without an index is refused, and every section must be linked'
   })
   assert.ok(unlisted.includes('checklist/section-not-listed'))
 })
+
+/**
+ * A checklist travels into every skill that declares it and is read whole, so
+ * the remedy for an oversized one is a second checklist, not more sections.
+ */
+test('a checklist too large to be loaded whole is refused', () => {
+  const files = {
+    'domains/craft/domain.json': domainManifest('craft'),
+    'domains/craft/checklists/huge/00-index.md': '# Huge\n\n- [01-a.md](01-a.md)\n',
+    'domains/craft/checklists/huge/01-a.md': `# A\n\n${'criterion '.repeat(3000)}\n`,
+  }
+  assert.ok(errors(files).includes('checklist/over-budget'))
+  assert.ok(!warnings(files).includes('checklist/large'), 'the error replaces the warning')
+})

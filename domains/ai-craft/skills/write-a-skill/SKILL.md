@@ -31,17 +31,35 @@ whole retrieval mechanism, not a summary of the body. Read
 [description-patterns.md](references/description-patterns.md) and write it from a pattern, not
 from instinct.
 
-**2. Say when not to use it.** Name the neighbouring skills that own the adjacent cases. This
+**2. Run the task once with no skill, and write the eval from what went wrong.** Give the real
+prompt to a fresh agent, record verbatim what it got wrong, and save that as the baseline in
+`evals/<case>.md`. Then write only what closes that gap. This is the step most authors skip,
+and skipping it is why skills end up full of advice the agent did not need: without a baseline
+you are guessing at the gap, and you cannot show afterwards that the skill changed anything.
+
+**3. Say when not to use it.** Name the neighbouring skills that own the adjacent cases. This
 section is what stops the skill from being loaded for work it does badly, and it is the first
 thing reviewers find missing.
 
-**3. Write the procedure, and only the procedure.** Numbered steps in the imperative, each one
-checkable: a reader must be able to tell whether a step was done. The body answers *what to do*;
-everything that answers *why* or *in which exotic case* goes into `references/`.
+**4. Write the procedure, and only the procedure.** Numbered steps in the imperative, each one
+ending on a criterion that is checkable *and* demanding: "every file in the diff accounted for"
+is a criterion, "review the diff" is a topic. The body answers *what to do*; everything that
+answers *why* or *in which exotic case* goes into `references/`.
 
-**4. Hold the budget.** The page an agent loads every time must stay small — the validator
-refuses over ~5000 tokens and warns at 3500. Three levels, each loaded only if the one before
-it was not enough:
+Two things decide how a step should be written:
+
+- **Match the form to how much freedom the step can take.** Many valid paths → prose. One
+  preferred pattern → a parameterised command. Fragile, or it must come out identical every
+  time → the exact command, verbatim. If three runs would each write the same throwaway helper,
+  write it once into `scripts/` and say whether to **run** it or **read** it.
+- **Say what to do, not what to avoid.** A prohibition puts the behaviour you do not want into
+  the agent's context and makes it more available, not less. Keep prohibitions for the case
+  where the agent knows the rule and breaks it anyway under pressure; everywhere else a positive
+  instruction wins.
+
+**5. Hold the budget, and order the page.** The page an agent loads every time must stay small —
+the validator refuses over ~5000 tokens and warns at 3500. Three levels, each loaded only if the
+one before it was not enough:
 
 | Level | What it holds | Cost |
 | :- | :- | :- |
@@ -49,26 +67,49 @@ it was not enough:
 | `SKILL.md` | the procedure | read when the skill triggers |
 | `references/*.md` | the detail, the edge cases, the tables | read only when a step says to |
 
-If a step needs 300 words of nuance, the step is one line and the nuance is a reference.
+If a step needs 300 words of nuance, the step is one line and the nuance is a reference. Order
+matters as much as size: after a context compaction only the top of an invoked skill comes back,
+so whatever must survive goes first.
 
-**5. Keep the frontmatter spec-pure.** Only `name`, `description`, `license`, `compatibility`,
+**Keep references one level deep.** A file reached from another referenced file is read
+partially, not whole — so a reference that is only an index to other references delivers nothing.
+Each `references/*.md` is linked from the body and complete on its own.
+
+**6. Keep the frontmatter spec-pure.** Only `name`, `description`, `license`, `compatibility`,
 `metadata`, `allowed-tools` survive everywhere; anything else makes a claude.ai upload fail
 outright. Use a Claude Code key only when the skill genuinely needs it, and then declare
-`compatibility: [claude-code]`. Same for the body: command injection and plugin-root variables
-do nothing outside Claude Code. The table is in
+`compatibility`. Same for the body: command injection and plugin-root variables do nothing
+outside Claude Code. The table is in
 [frontmatter-matrix.md](references/frontmatter-matrix.md).
 
-**6. Write one eval case before you call it done.** A real task, the behaviour you expect, and
-the plausible wrong turn. A skill whose quality is only asserted in prose has no quality. Put it
-in `evals/` — one file per case.
+A complete minimal skill, for shape:
 
-**7. Run `staff validate`, then run the skill for real once.** On Claude Code and on one other
-platform if it claims to be portable. The validator catches the shape; only a real run catches
-a procedure that reads well and cannot be followed.
+```md
+---
+name: check-migration-safety
+description: Audit a database migration for the changes that take a lock or lose data. Use when a
+  pull request adds or edits a migration file, before it is approved. Not for writing one — that
+  is write-a-migration.
+---
+
+Migrations fail in production in two ways: they hold a lock long enough to time out requests, or
+they drop something nothing told you was still read.
+
+## Procedure
+
+1. List every statement that rewrites a table or takes an exclusive lock.
+2. For each, state the row count it runs against and the lock it takes, from the schema — not
+   from the migration's own comments.
+```
+
+**7. Run `staff validate`, then run the skill for real.** Each run starts from a clean context —
+a fresh session or a subagent — or you are measuring your own conversation, not the skill. Run
+the eval case from step 2 and record the result next to the baseline. The validator catches the
+shape; only a real run catches a procedure that reads well and cannot be followed.
 
 ## The checklist
 
-[skill-quality](references/skill-quality/00-index.md) is the pass to run before calling a skill
+[skill-quality](references/skill-quality.md) is the pass to run before calling a skill
 finished — and the pass to run on this one. In audit mode it also works on somebody else's skill.
 
 ## What makes a skill fail

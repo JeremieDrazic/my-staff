@@ -7,6 +7,14 @@ import { CLAUDE_CODE_KEYS, SPEC_KEYS } from './model.mjs'
 const SKILL_TOKEN_BUDGET = 5000
 const SKILL_TOKEN_WARN = 3500
 
+/**
+ * A checklist travels into every skill that declares it, as one file read whole.
+ * Sections are how a human reviews it, not how an agent loads it, so the budget
+ * applies to the checklist and the remedy is a second checklist.
+ */
+const CHECKLIST_TOKEN_BUDGET = 6000
+const CHECKLIST_TOKEN_WARN = 4000
+
 /** Body features that work in Claude Code and silently do nothing anywhere else. */
 const CLAUDE_CODE_BODY = [
   { pattern: /!`[^`]+`/, what: 'command injection (!`…`)' },
@@ -185,6 +193,14 @@ function validateChecklist(domain, checklist, add) {
     }
   }
   if (sections.length === 0) {
-    add('warn', 'checklist/single-file', where, 'One file only. Split by section so a skill can load the part it needs.')
+    add('warn', 'checklist/single-file', where, 'One file only. Split into sections so a reviewer can read one concern at a time; `staff sync` joins them back for the agent.')
+  }
+  const tokens = estimateTokens(
+    [checklist.index.raw, ...sections.map((section) => readFileSync(join(checklist.dir, section), 'utf8'))].join('\n')
+  )
+  if (tokens > CHECKLIST_TOKEN_BUDGET) {
+    add('error', 'checklist/over-budget', where, `~${tokens} tokens. A skill loads a checklist whole, so over ~${CHECKLIST_TOKEN_BUDGET} it stops being loadable. Split it into two checklists a skill can declare separately — not into more sections, which do not reduce the load.`)
+  } else if (tokens > CHECKLIST_TOKEN_WARN) {
+    add('warn', 'checklist/large', where, `~${tokens} tokens, loaded whole by every skill that declares it. Past ~${CHECKLIST_TOKEN_WARN}, consider two checklists scoped to different passes.`)
   }
 }

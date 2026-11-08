@@ -25,9 +25,21 @@ stops a wrong load.
   say so. Each noun is a retrieval hook, and this is the one place where a list earns its cost.
 - **Say what it is not for.** One clause, naming the skill that owns it.
 - **No self-reference.** "This skill…" spends the most valuable words in the file on nothing.
+- **No first or second person.** "I can help you…" and "You can use this to…" both misfire: the
+  description is injected into the system prompt, where it is not addressed to anyone. A bare
+  imperative ("Write a new skill…") or a third-person verb ("Reviews a component…") both work.
+- **Name the work, never its steps.** This is the rule that looks stylistic and is not. A
+  description that summarises the procedure gets followed *in place of* the body: the agent reads
+  "reviews a component, then checks accessibility", does those two things, and never opens the
+  nine-step pass. One verb phrase for the work, no steps.
 - **Between 40 and 1024 characters.** Under 40 it cannot carry a trigger. Over ~400 it is doing
   the body's job, with one exception: a skill that deliberately covers a wide surface, where the
   list of nouns *is* the trigger.
+
+  The ceiling is not taste. Every installed skill's description sits in a listing that is capped
+  at roughly 1% of the context window, each entry truncated past ~1500 characters; when the
+  listing overflows, descriptions of the least-used skills are dropped outright. A long
+  description is not just expensive — it is the reason a neighbouring skill stops being findable.
 
 ## Before and after
 
@@ -40,3 +52,14 @@ stops a wrong load.
 
 Give the description alone to an agent with no other context, with the sentence a person would
 really type. If the agent cannot tell whether to load it, rewrite the description — not the body.
+
+One prompt is a sanity check, not a test. A description worth trusting has six, written into the
+eval case:
+
+- **Three that should load it**, phrased differently from each other, none naming the skill.
+- **Three near-misses that should not**, sharing the skill's own keywords. "Review this
+  component's database queries" against a React review skill is a near-miss; "book a flight"
+  tests nothing and passing it proves nothing.
+
+Run them on a fresh context each. A description that catches the near-misses is worse than one
+that misses a trigger: it loads over the skill that should have answered, and nothing reports it.

@@ -7,9 +7,17 @@ nothing. Everything in this section is about the one sentence an agent reads bef
       sentence "I should load this when…".
 - [ ] **P0** It uses the words a person would actually type, not internal vocabulary.
 - [ ] **P0** It does not start by naming itself ("This skill…"). Refused by `staff validate`.
+- [ ] **P0** No first or second person — not "I can help you…", not "You can use this to…". The
+      description is injected into the system prompt, where both read as the wrong speaker. A bare
+      imperative is fine.
 - [ ] **P1** It says what the skill is **not** for, naming the skill that owns the adjacent case.
 - [ ] **P1** The surfaces the skill covers are listed as nouns, because each one is a retrieval hook.
+- [ ] **P1** It names the work, never its steps. A description that summarises the procedure gets
+      followed *instead of* the body, and the agent does the three-line version of a nine-step pass.
 - [ ] **P1** The body has a `## When not to use this` section, and it names other skills.
+- [ ] **P1** Three prompts that should load it and three near-misses that should not, recorded in
+      an eval case. The near-misses share the skill's keywords — an obviously unrelated prompt
+      tests nothing.
 - [ ] **P2** Read aloud, the first clause alone would make someone open it.
 
 ## Anti-patterns
