@@ -1,5 +1,6 @@
 {
   "paths": [
-    "./domains/ai-craft/skills"
+    "./domains/ai-craft/skills",
+    "./domains/craft/skills"
   ]
 }

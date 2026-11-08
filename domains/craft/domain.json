@@ -1,0 +1,19 @@
+{
+  "$schema": "../../shared/schemas/domain.schema.json",
+  "name": "craft",
+  "family": "engineering",
+  "summary": "The disciplines a change passes through whoever makes it: how work is delegated, how it is reviewed, how a decision is recorded, and how a review finding becomes a lint rule.",
+  "status": "draft",
+  "version": "0.1.0",
+  "keywords": [
+    "code review",
+    "delegation",
+    "refactoring",
+    "architecture decision record",
+    "pull request",
+    "linting",
+    "conventions",
+    "adopt"
+  ],
+  "requires": []
+}

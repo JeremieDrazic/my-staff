@@ -11,7 +11,7 @@ for you. This repository is both — a set of roles that do the work, and someth
 while doing it.
 
 <!-- staff:stats -->
-**1** skills · **0** roles · **1** checklists · **0** of 1 domains ready
+**2** skills · **0** roles · **2** checklists · **0** of 2 domains ready
 <!-- /staff:stats -->
 
 ## Install
@@ -47,6 +47,12 @@ lying about what it is.
 | Domain | What it covers | Skills | Roles | Status |
 | :- | :- | -: | -: | :- |
 | `ai-craft` | Building the tooling itself: writing a skill, a role or an eval, auditing one, and making it work on every platform. | 1 | 0 | `draft` |
+
+### Engineering
+
+| Domain | What it covers | Skills | Roles | Status |
+| :- | :- | -: | -: | :- |
+| `craft` | The disciplines a change passes through whoever makes it: how work is delegated, how it is reviewed, how a decision is recorded, and how a review finding becomes a lint rule. | 1 | 0 | `draft` |
 <!-- /staff:domains -->
 
 ## Roles

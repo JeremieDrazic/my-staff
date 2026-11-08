@@ -1,0 +1,54 @@
+diff --git a/src/OrderList.tsx b/src/OrderList.tsx
+index e8e0f13..878a07e 100644
+--- a/src/OrderList.tsx
++++ b/src/OrderList.tsx
+@@ -1,9 +1,16 @@
+ import { useEffect, useState } from 'react'
++import { listOrders } from './orders'
+ 
+-export function OrderList({ customerId }: { customerId: string }) {
++export function OrderList({ customerId, sort }: { customerId: string; sort?: string }) {
+   const [orders, setOrders] = useState<unknown[]>([])
++  const [error, setError] = useState<string | null>(null)
++
+   useEffect(() => {
+-    fetch(`/api/orders/${customerId}`).then((r) => r.json()).then(setOrders)
++    listOrders(customerId, sort)
++      .then(setOrders)
++      .catch((e) => setError(e.message))
+   }, [customerId])
++
++  if (error) return <p>{error}</p>
+   return <ul>{orders.map((o, i) => <li key={i}>{String(o)}</li>)}</ul>
+ }
+diff --git a/src/orders.ts b/src/orders.ts
+index 329163d..18b9a88 100644
+--- a/src/orders.ts
++++ b/src/orders.ts
+@@ -1,7 +1,24 @@
+ import { db } from './db'
++import { audit } from './audit'
+ 
+-export async function listOrders(customerId: string) {
+-  return db.query('SELECT * FROM orders WHERE customer_id = $1', [customerId])
++export async function listOrders(customerId: string, sort?: string) {
++  const direction = sort === 'desc' ? 'DESC' : 'ASC'
++  return db.query(
++    `SELECT * FROM orders WHERE customer_id = $1 ORDER BY created_at ${direction}`,
++    [customerId],
++  )
++}
++
++export async function cancelOrder(orderId: string, actorId: string) {
++  await db.query('UPDATE orders SET status = $1 WHERE id = $2', ['cancelled', orderId])
++  try {
++    await audit.record({ action: 'order.cancelled', orderId, actorId })
++  } catch {}
++  return { ok: true }
++}
++
++export async function searchOrders(term: string) {
++  return db.query(`SELECT * FROM orders WHERE reference LIKE '%${term}%'`)
+ }
+ 
+ export function formatTotal(cents: number) {
