@@ -46,7 +46,9 @@ nothing. Everything in this section is about the one sentence an agent reads bef
 - [ ] **P0** No first or second person — not "I can help you…", not "You can use this to…". The
       description is injected into the system prompt, where both read as the wrong speaker. A bare
       imperative is fine.
-- [ ] **P1** It says what the skill is **not** for, naming the skill that owns the adjacent case.
+- [ ] **P1** It says what the skill is **not** for, naming the skill that owns the adjacent
+      case — or, when nothing adjacent exists yet, the case itself and the real tool that owns
+      it. An invented skill name is worse than none: a reader tries to load it.
 - [ ] **P1** The surfaces the skill covers are listed as nouns, because each one is a retrieval hook.
 - [ ] **P1** It names the work, never its steps. A description that summarises the procedure gets
       followed *instead of* the body, and the agent does the three-line version of a nine-step pass.
@@ -73,6 +75,9 @@ nothing. Everything in this section is about the one sentence an agent reads bef
 - [ ] **P0** Each step's criterion is demanding, not only checkable. "Every file in the diff
       accounted for" is a criterion; "review the diff" names a topic and lets the agent stop
       whenever it likes.
+- [ ] **P0** Each criterion is satisfiable in the **failing** case, not only in the passing one.
+      "Cite the line number of the `USER` instruction" is checkable and demanding, and cannot be
+      met by the file that has no `USER` line — which is the file the pass exists for.
 - [ ] **P0** Under the token budget. `staff validate` refuses over ~5000 estimated tokens and
       warns at 3500.
 - [ ] **P0** References are one level deep. A file reached from another referenced file is read
@@ -84,7 +89,10 @@ nothing. Everything in this section is about the one sentence an agent reads bef
       work, a parameterised command where one pattern is preferred, the exact command where the
       operation is fragile or must be identical every time.
 - [ ] **P1** Work that would be rewritten on every run lives in `scripts/`, and the step says
-      whether to **run** the file or **read** it.
+      whether to **run** the file or **read** it, with the path given as relative to the skill's
+      own directory and said in words — the agent has to find that directory itself.
+- [ ] **P1** References are grouped by mechanism, not by step. Two steps turning on the same
+      mechanism share one file; a file per step produces orphans and repetition.
 - [ ] **P1** Steps say what to do rather than what to avoid. A prohibition makes the unwanted
       behaviour more available; keep it for the case where the agent knows the rule and breaks
       it anyway under pressure.
@@ -117,7 +125,10 @@ Default is spec-pure. Departing from it is allowed, declared, and paid for by a 
       variables) without declaring `compatibility: [claude-code]`. The failure is otherwise
       invisible: the skill loads and quietly skips a step.
 - [ ] **P0** `name` equals the directory name. Both are kebab-case.
-- [ ] **P1** `allowed-tools`, if present, is constrained — `Bash(git diff *)`, not bare `Bash`.
+- [ ] **P1** `allowed-tools` is absent unless the skill must run unattended. A grant wide
+      enough to run the skill's own script is unconstrained in all but name, and one drawn too
+      tight blocks a step silently. When it is present it is constrained — `Bash(git diff *)`,
+      never bare `Bash` — and every step has been run under it.
 - [ ] **P1** Paths referenced in the body are relative to the skill directory, so they survive
       being copied into another agent's skills folder.
 - [ ] **P1** No cross-domain reference by relative path. Another domain's material is reached by

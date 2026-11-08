@@ -6,6 +6,9 @@
 - [ ] **P0** Each step's criterion is demanding, not only checkable. "Every file in the diff
       accounted for" is a criterion; "review the diff" names a topic and lets the agent stop
       whenever it likes.
+- [ ] **P0** Each criterion is satisfiable in the **failing** case, not only in the passing one.
+      "Cite the line number of the `USER` instruction" is checkable and demanding, and cannot be
+      met by the file that has no `USER` line — which is the file the pass exists for.
 - [ ] **P0** Under the token budget. `staff validate` refuses over ~5000 estimated tokens and
       warns at 3500.
 - [ ] **P0** References are one level deep. A file reached from another referenced file is read
@@ -17,7 +20,10 @@
       work, a parameterised command where one pattern is preferred, the exact command where the
       operation is fragile or must be identical every time.
 - [ ] **P1** Work that would be rewritten on every run lives in `scripts/`, and the step says
-      whether to **run** the file or **read** it.
+      whether to **run** the file or **read** it, with the path given as relative to the skill's
+      own directory and said in words — the agent has to find that directory itself.
+- [ ] **P1** References are grouped by mechanism, not by step. Two steps turning on the same
+      mechanism share one file; a file per step produces orphans and repetition.
 - [ ] **P1** Steps say what to do rather than what to avoid. A prohibition makes the unwanted
       behaviour more available; keep it for the case where the agent knows the rule and breaks
       it anyway under pressure.

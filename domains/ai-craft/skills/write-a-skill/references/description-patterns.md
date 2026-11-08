@@ -32,9 +32,16 @@ stops a wrong load.
   description that summarises the procedure gets followed *in place of* the body: the agent reads
   "reviews a component, then checks accessibility", does those two things, and never opens the
   nine-step pass. One verb phrase for the work, no steps.
-- **Between 40 and 1024 characters.** Under 40 it cannot carry a trigger. Over ~400 it is doing
-  the body's job, with one exception: a skill that deliberately covers a wide surface, where the
-  list of nouns *is* the trigger.
+
+  **This rule and "list the surfaces" look like they collide. They do not, and the surface list
+  wins.** A surface is a noun naming what the pass covers — "props, state, the four UI states,
+  accessibility" — and nouns carry no order, so there is nothing for an agent to execute instead
+  of the body. A step is an operation, and a sequence of them is a procedure in miniature. Keep
+  the nouns, drop any word that implies *then*.
+- **Between 40 and 1024 characters** — the two hard bounds; `staff validate` refuses outside
+  them. Under 40 it cannot carry a trigger. **~400 is a target, not a third limit**: nothing
+  refuses 428, and a skill covering a wide surface, where the list of nouns *is* the trigger,
+  legitimately runs longer. Past ~400, check that the extra words are nouns and not procedure.
 
   The ceiling is not taste. Every installed skill's description sits in a listing that is capped
   at roughly 1% of the context window, each entry truncated past ~1500 characters; when the

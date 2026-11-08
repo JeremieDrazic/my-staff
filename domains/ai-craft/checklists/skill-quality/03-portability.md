@@ -9,7 +9,10 @@ Default is spec-pure. Departing from it is allowed, declared, and paid for by a 
       variables) without declaring `compatibility: [claude-code]`. The failure is otherwise
       invisible: the skill loads and quietly skips a step.
 - [ ] **P0** `name` equals the directory name. Both are kebab-case.
-- [ ] **P1** `allowed-tools`, if present, is constrained — `Bash(git diff *)`, not bare `Bash`.
+- [ ] **P1** `allowed-tools` is absent unless the skill must run unattended. A grant wide
+      enough to run the skill's own script is unconstrained in all but name, and one drawn too
+      tight blocks a step silently. When it is present it is constrained — `Bash(git diff *)`,
+      never bare `Bash` — and every step has been run under it.
 - [ ] **P1** Paths referenced in the body are relative to the skill directory, so they survive
       being copied into another agent's skills folder.
 - [ ] **P1** No cross-domain reference by relative path. Another domain's material is reached by

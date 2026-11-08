@@ -10,7 +10,9 @@ nothing. Everything in this section is about the one sentence an agent reads bef
 - [ ] **P0** No first or second person — not "I can help you…", not "You can use this to…". The
       description is injected into the system prompt, where both read as the wrong speaker. A bare
       imperative is fine.
-- [ ] **P1** It says what the skill is **not** for, naming the skill that owns the adjacent case.
+- [ ] **P1** It says what the skill is **not** for, naming the skill that owns the adjacent
+      case — or, when nothing adjacent exists yet, the case itself and the real tool that owns
+      it. An invented skill name is worse than none: a reader tries to load it.
 - [ ] **P1** The surfaces the skill covers are listed as nouns, because each one is a retrieval hook.
 - [ ] **P1** It names the work, never its steps. A description that summarises the procedure gets
       followed *instead of* the body, and the agent does the three-line version of a nine-step pass.
